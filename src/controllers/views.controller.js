@@ -27,8 +27,7 @@ class ViewsController {
     }
 
     login(req, res) {
-        try {
-            // middleware userIsNotLoggedIn: sólo se puede acceder si no está logueado
+        try {           
             res.render('login', {
                 title: 'Login'
             })
@@ -40,10 +39,21 @@ class ViewsController {
     }
 
     reset_password(req, res) {
-        try {
-            // middleware userIsNotLoggedIn: sólo se puede acceder si no está logueado
+        try {           
             res.render('reset_password', {
                 title: 'Reset Password'
+            })
+        } catch (err) {
+            req.logger.error(`${err} - ${req.method} en ${req.url} - ${new Date().toLocaleDateString()}`)
+            return res.sendServerError(err)
+            //return res.status(500).json({ message: err.message })
+        }
+    }
+
+    forget_password(req, res) {
+        try {            
+            res.render('forget_password', {
+                title: 'Forget Password'
             })
         } catch (err) {
             req.logger.error(`${err} - ${req.method} en ${req.url} - ${new Date().toLocaleDateString()}`)

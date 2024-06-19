@@ -44,6 +44,16 @@ class SessionController {
         res.redirect('/login')
     }
 
+    forget_password (req, res) {
+        
+
+
+
+
+
+        
+    }
+
     failreset (req, res) {
         res.sendUserError('Reset password failed!')
         //res.send({ status: 'error', message: 'Reset password failed!' })
