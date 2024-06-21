@@ -108,7 +108,7 @@ const initializeStrategy = () => {
     passport.use('reset_password', new LocalStrategy({
         usernameField: 'email'
     }, async (username, password, done) => {
-        try {
+        try {            
             if (!username || !password) {
                 return done(null, false)
             }

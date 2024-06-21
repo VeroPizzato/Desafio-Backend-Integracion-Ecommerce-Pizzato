@@ -27,7 +27,7 @@ class SessionRouter extends Router {
        
         this.get('/failregister', withController((controller, req, res) => controller.failregister(req, res))) 
 
-        this.post('/reset_password', passport.authenticate('reset_password', { failureRedirect: '/api/sessions/failreset' }), withController((controller, req, res) => controller.reset_password(req, res)))
+        this.post('/reset_password/:token', passport.authenticate('reset_password', { failureRedirect: '/api/sessions/failreset' }), withController((controller, req, res) => controller.reset_password(req, res)))
         
         this.post('/forget_password', withController((controller, req, res) => controller.forget_password(req, res))) 
              

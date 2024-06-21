@@ -17,7 +17,7 @@ class ViewsRouter extends Router {
 
         this.get('/login', userIsNotLoggedIn, withController((controller, req, res) => controller.login(req, res)))
         
-        this.get('/reset_password', userIsNotLoggedIn, withController((controller, req, res) => controller.reset_password(req, res)))
+        this.get('/reset_password/:token', userIsNotLoggedIn, withController((controller, req, res) => controller.reset_password(req, res)))
 
         this.get('/forget_password', userIsNotLoggedIn, withController((controller, req, res) => controller.forget_password(req, res)))
 

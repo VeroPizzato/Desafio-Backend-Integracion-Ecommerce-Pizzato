@@ -38,24 +38,26 @@ class ViewsController {
         }
     }
 
-    reset_password(req, res) {
-        try {           
+    reset_password(req, res) {       
+        try {     
+            const token = req.params.token                  
             res.render('reset_password', {
-                title: 'Reset Password'
+                title: 'Reset Password',
+                token
             })
-        } catch (err) {
+        } catch (err) {           
             req.logger.error(`${err} - ${req.method} en ${req.url} - ${new Date().toLocaleDateString()}`)
             return res.sendServerError(err)
             //return res.status(500).json({ message: err.message })
         }
     }
-
+ 
     forget_password(req, res) {
-        try {            
+        try {                 
             res.render('forget_password', {
                 title: 'Forget Password'
             })
-        } catch (err) {
+        } catch (err) {         
             req.logger.error(`${err} - ${req.method} en ${req.url} - ${new Date().toLocaleDateString()}`)
             return res.sendServerError(err)
             //return res.status(500).json({ message: err.message })
