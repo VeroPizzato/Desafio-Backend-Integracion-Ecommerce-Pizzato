@@ -1,5 +1,5 @@
 const config = require('../config/config')
-const { isValidPassword } = require('../utils/hashing')
+const { isValidPassword, hashPassword} = require('../utils/hashing')
 
 class JwtServices {
 
@@ -34,7 +34,7 @@ class JwtServices {
             }
         }
         else {
-            user = await this.dao.login(email)
+            user = await this.dao.findByEmail(email)
             if (!user) {
                 //res.sendNotFoundError(err)
                 //return res.status(404).json({ error: 'User not found!' })
@@ -46,6 +46,17 @@ class JwtServices {
                 //return res.status(401).json({ error: 'Invalid password' })
                 throw new Error('invalid password')
             }
+        }
+        return user
+    }
+
+    async validarPassRepetidos (email, password) {
+        let user
+        user = await this.dao.findByEmail({email})
+        console.log(hashPassword(password))
+        console.log(user.password)
+        if (isValidPassword(hashPassword(password), user.password)) {  // misma contraseña que la anterior
+            throw new Error('Contraseña inválida, la nueva contraseña no puede ser igual a la contraseña anterior')
         }
         return user
     }

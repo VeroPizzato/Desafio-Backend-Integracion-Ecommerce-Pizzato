@@ -15,7 +15,7 @@ class JwtController {
                 return res.sendUserError('Invalid credentials!')
                 //return res.status(400).send('Invalid credentials!')
             }
-            const user = this.service.login(email, password)
+            const user = this.service.findByEmail(email, password)
             // const credentials = { id: user._id.toString(), email: user.email, rol: 'user' }
             const credentials = { id: user._id.toString(), email: user.email, rol: user.rol }
             const accessToken = generateToken(credentials)

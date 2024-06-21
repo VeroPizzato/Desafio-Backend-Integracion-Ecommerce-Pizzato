@@ -1,3 +1,5 @@
+const { JwtServices } = require('../services/jwt.service')
+const { User: UserDAO } = require('../dao')
 const { UserDTO } = require("../dao/DTOs/user.dto")
 const { generateUser } = require("../mock/generateUser")
 const nodemailer = require('nodemailer')
@@ -8,8 +10,9 @@ const config = require('../config/config')
 const PRIVATE_KEY = config.SECRET
 
 class SessionController {
-
+  
     constructor() {
+        this.service = new JwtServices(new UserDAO())
     }
 
     login(req, res) {
@@ -46,32 +49,42 @@ class SessionController {
         //res.send({ status: 'error', message: 'Register failed!' })
     }
 
-    reset_password(req, res) {
-        const token = req.params.token
-      
+    async reset_password(req, res) {
+        const token = req.params.token        
+        const { email, password } = req.body
+        console.log(email + " " + password)
         if (!token) {
-            return res.status(401).send('Token no proporcionado');
+            req.logger.info('Token no proporcionado')
+            //return res.status(401).send('Token no proporcionado')
         }
 
         jwt.verify(token, PRIVATE_KEY, async (err, decoded) => {
             if (err) {
-                return res.status(401).send('Enlace no válido o ha expirado');
+                req.logger.info('Enlace no válido o ha expirado')
+                //return res.status(401).send('Enlace no válido o ha expirado')
             }
 
+            const user = await this.service.validarPassRepetidos(email, password)             
+            if (!user) {
+                req.logger.info('No se pudo actualizar la contraseña')
+                return res.redirect('/')
+            }
+
+            req.logger.info('Contraseña actualizada')
             try {
                 res.redirect('/login')
             } catch (err) {
-                console.error('Error al resetear la contraseña:', err)
-                res.status(500).send({
-                    status: "error",
-                    err: "Error al resetear la contraseña"
-                })
+                req.logger.error(err)
+                // res.status(500).send({
+                //     status: "error",
+                //     err: "Error al resetear la contraseña"
+                // })
             }
         })
     }
 
     forget_password = async (req, res) => {
-        const { email } = req.body;
+        const { email } = req.body
 
         if (email) {
             try {
@@ -90,20 +103,23 @@ class SessionController {
                 })
 
                 // Si el envío de correo fue exitoso
+                //req.logger.info('Correo enviado con éxito')
                 res.status(200).json({
                     message: 'Correo enviado con éxito'
-                });
+                })
 
             } catch (err) {
-                console.error('Error al enviar el correo:', err);
-                res.status(500).json({
-                    err: 'Error al enviar el correo'
-                });
+                req.logger.error(err)
+                // console.error('Error al enviar el correo:', err)
+                // res.status(500).json({
+                //     err: 'Error al enviar el correo'
+                // })
             }
         } else {
-            res.status(400).json({
-                err: 'Correo electrónico no proporcionado'
-            })
+            req.logger.info('Correo electrónico no proporcionado')
+            // res.status(400).json({
+            //     err: 'Correo electrónico no proporcionado'
+            // })
         }
     }
 

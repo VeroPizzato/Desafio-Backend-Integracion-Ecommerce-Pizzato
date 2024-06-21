@@ -37,7 +37,7 @@ const initializeStrategy = () => {
             //console.log('Profile de github: ', profile, profile._json)
 
             //const user = await User.findOne({ email: profile._json.email })
-            const user = await UserDAO.login({ email: profile._json.email })
+            const user = await UserDAO.findByEmail({ email: profile._json.email })
 
             if (user) {
                 return done(null, user)
@@ -77,7 +77,7 @@ const initializeStrategy = () => {
 
         try {
             //const user = await User.findOne({ email: username })
-            const user = await UserDAO.login({ email: username })
+            const user = await UserDAO.findByEmail({ email: username })
             if (user) {
                 console.log('User already exists!')
 
@@ -119,7 +119,7 @@ const initializeStrategy = () => {
             }
             // 1. verificar que el usuario exista en la BD
             //user = await User.findOne({ email: username })
-            user = await UserDAO.login({ email: username })
+            user = await UserDAO.findByEmail({ email: username })
             if (!user) {
                 return done(null, false)
             }
@@ -144,7 +144,7 @@ const initializeStrategy = () => {
             }
 
             //let user = await User.findOne({ email: username });
-            let user = await UserDAO.login({ email: username });          
+            let user = await UserDAO.findByEmail({ email: username });          
             if (username === config.ADMIN_EMAIL && password === config.ADMIN_PASSWORD) {
                 // Datos de sesión para el usuario coder Admin
                 user = {
