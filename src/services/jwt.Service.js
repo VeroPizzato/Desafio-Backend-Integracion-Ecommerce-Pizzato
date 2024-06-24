@@ -52,10 +52,8 @@ class JwtServices {
 
     async validarPassRepetidos (email, password) {
         let user
-        user = await this.dao.findByEmail({email})
-        console.log(hashPassword(password))
-        console.log(user.password)
-        if (isValidPassword(hashPassword(password), user.password)) {  // misma contraseña que la anterior
+        user = await this.dao.findByEmail({email})      
+        if (isValidPassword(password, user.password)) {  // misma contraseña que la anterior
             throw new Error('Contraseña inválida, la nueva contraseña no puede ser igual a la contraseña anterior')
         }
         return user
