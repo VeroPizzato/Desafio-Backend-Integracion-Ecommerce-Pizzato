@@ -2,7 +2,6 @@ const { JwtServices } = require('../services/jwt.service')
 const { User: UserDAO } = require('../dao')
 const { UserDTO } = require("../dao/DTOs/user.dto")
 const { generateUser } = require("../mock/generateUser")
-const nodemailer = require('nodemailer')
 const transport = require("../config/transport")
 const jwt = require('jsonwebtoken')
 const config = require('../config/config')
@@ -84,11 +83,10 @@ class SessionController {
     }
 
     forget_password = async (req, res) => {
-        const { email } = req.body
-
+        const { email } = req.body       
         if (email) {
             try {
-                const token = jwt.sign({ email }, PRIVATE_KEY, { expiresIn: '1h' })                
+                const token = jwt.sign({ email }, PRIVATE_KEY, { expiresIn: '1h' })   
                 const resetLink = `http://localhost:8080/reset_password/${token}`
                 let result = await transport.sendMail({
                     from: 'Servicio Google <verizzato@gmail.com>',
@@ -103,10 +101,10 @@ class SessionController {
                 })
 
                 // Si el envío de correo fue exitoso
-                //req.logger.info('Correo enviado con éxito')
-                res.status(200).json({
-                    message: 'Correo enviado con éxito'
-                })
+                req.logger.info('Correo enviado con éxito')
+                // res.status(200).json({
+                //     message: 'Correo enviado con éxito'
+                // })
 
             } catch (err) {
                 req.logger.error(err)
