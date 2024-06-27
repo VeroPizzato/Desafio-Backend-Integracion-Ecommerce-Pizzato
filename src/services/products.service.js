@@ -12,8 +12,8 @@ class ProductsService {
         return await this.dao.getProductById(pid)
     }
 
-    async addProduct (title, description, price, thumbnail, code, stock, status, category) {
-        return await this.dao.addProduct(title, description, price, thumbnail, code, stock, status, category)
+    async addProduct (title, description, price, thumbnail, code, stock, status, category, owner) {
+        return await this.dao.addProduct(title, description, price, thumbnail, code, stock, status, category, owner)
     }
     
     async updateProduct (prodId, producto) {

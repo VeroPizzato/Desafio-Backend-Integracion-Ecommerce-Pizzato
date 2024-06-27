@@ -8,7 +8,7 @@ const generateProduct = () => ({
     code: faker.string.alphanumeric(),
     stock: faker.number.int({ min: 0, max: 200 }),
     status: faker.datatype.boolean(),
-    category: faker.commerce.product()
+    category: faker.commerce.product()  
 })
 
 module.exports = { generateProduct }

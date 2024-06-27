@@ -255,7 +255,8 @@ class ViewsController {
                 product.code,
                 +product.stock,
                 boolStatus,
-                product.category)
+                product.category,
+                product.owner)
             // Notificar a los clientes mediante WS que se agrego un producto nuevo             
             req.app.get('ws').emit('newProduct', product)
             res.redirect('/realtimeproducts')

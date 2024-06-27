@@ -100,6 +100,23 @@ class CartsController {
             let cartId = req.cid
             let prodId = req.pid
             const quantity = +req.body.quantity
+
+            const producto = await this.productsService.getProductById(prodId)  
+            if (!producto) {
+                return res.status(404).json({
+                    result: 'error',
+                    message: 'Producto no encontrado'
+                });
+            }
+
+            if (!req.session.user || (req.session.user.rol === 'premium' && req.session.user.email === producto.owner)) {
+                req.logger.error(`${error} - ${req.method} en ${req.url} - ${new Date().toLocaleDateString()} `)
+                return res.send({
+                    status: "Error",
+                    error: 'No autorizado'
+                })
+            }
+
             const result = await this.cartsService.addProductToCart(cartId, prodId, quantity)
             if (result)
                 // HTTP 200 OK

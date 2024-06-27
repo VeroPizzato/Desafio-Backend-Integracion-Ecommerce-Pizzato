@@ -22,8 +22,8 @@ const soloNumPositivosYcero = (code) => {
     return (/^[0-9]+$/.test(code) && (code >= 0))
 }
 
-const validarDatos = (title, description, price, thumbnail, code, stock, status, category) => {
-    if (!title || !description || !price || !thumbnail || !code || !stock || !status || !category) {
+const validarDatos = (title, description, price, thumbnail, code, stock, status, owner) => {
+    if (!title || !description || !price || !thumbnail || !code || !stock || !status || !category || !owner) {
         return false
     }
     if (isNaN(price) || isNaN(stock)) {
@@ -77,9 +77,10 @@ const validarNuevoProducto = async (req, res, next) => {
     const stock = product.stock
     const status = product.status
     const category = product.category
+    const owner = product.owner
 
     try {
-        if (validarDatos(title, description, price, thumbnail, code, stock, status, category)) {
+        if (validarDatos(title, description, price, thumbnail, code, stock, status, category, owner)) {
             const listadoProductos = await productsService.getProducts(req.query)
             const codeIndex = listadoProductos.docs.findIndex(e => e.code === code)            
             if (codeIndex !== -1) {
@@ -105,7 +106,7 @@ const validarNuevoProducto = async (req, res, next) => {
                 status,
                 thumbnail,
                 code,
-                stock
+                stock                
             }),
             message: 'Error trying to create a new product',
             code: ErrorCodes.INVALID_TYPES_ERROR
@@ -123,7 +124,7 @@ const validarNuevoProducto = async (req, res, next) => {
                 status,
                 thumbnail,
                 code,
-                stock
+                stock                
             }),
             message: 'Error trying to create a new product',
             code: ErrorCodes.INVALID_TYPES_ERROR
@@ -145,6 +146,7 @@ const validarProdActualizado = async (req, res, next) => {
     const stock = product.stock
     const status = product.status
     const category = product.category
+    const owner = product.owner
     try {     
         const prod = await productsService.getProductById(idProd)    
         if (!prod){
@@ -155,7 +157,7 @@ const validarProdActualizado = async (req, res, next) => {
                 code: ErrorCodes.NOT_FOUND
             })
         } 
-        if (validarDatos(title, description, price, thumbnail, code, stock, status, category)) {                       
+        if (validarDatos(title, description, price, thumbnail, code, stock, status, category, owner)) {                       
             const listadoProductos = await productsService.getProducts(req.query)            
             const codeIndex = listadoProductos.docs.findIndex(e => {e.code === code && e._id != idProd})                    
             if (codeIndex !== -1) {                
@@ -181,7 +183,7 @@ const validarProdActualizado = async (req, res, next) => {
                 status,
                 thumbnail,
                 code,
-                stock
+                stock                
             }),
             message: 'Error trying to create a new product',
             code: ErrorCodes.INVALID_TYPES_ERROR
@@ -199,7 +201,7 @@ const validarProdActualizado = async (req, res, next) => {
                 status,
                 thumbnail,
                 code,
-                stock
+                stock                
             }),
             message: 'Error trying to create a new product',
             code: ErrorCodes.INVALID_TYPES_ERROR

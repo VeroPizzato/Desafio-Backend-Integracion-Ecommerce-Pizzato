@@ -55,7 +55,7 @@ class ProductDAO {
         }
     }
 
-    addProduct = async (title, description, price, thumbnail, code, stock, status, category) => {
+    addProduct = async (title, description, price, thumbnail, code, stock, status, category, owner) => {
         let product = await ProductModel.create({
             title,
             description,
@@ -64,7 +64,8 @@ class ProductDAO {
             code,
             stock,
             status,
-            category
+            category,
+            owner
         })
     }
 

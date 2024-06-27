@@ -62,7 +62,7 @@ class ProductManager {
         return id
     }
     
-    addProduct = async (title, description, price, thumbnail, code, stock, status, category) => {
+    addProduct = async (title, description, price, thumbnail, code, stock, status, category, owner) => {
         const product = {
             id: this.#getNuevoId(),
             title,
@@ -72,7 +72,8 @@ class ProductManager {
             code,
             stock,
             status,
-            category
+            category,
+            owner
         }
 
         this.#products.push(product)

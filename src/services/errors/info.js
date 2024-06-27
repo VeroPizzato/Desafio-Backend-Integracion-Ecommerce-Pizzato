@@ -9,7 +9,8 @@ const generateProductErrorInfo = (product) => {
     * status : debe ser un booleano, se recibió ${product.status}
     * thumbnail : debe ser un string, se recibió ${product.thumbnail}
     * code : debe ser un string, se recibió ${product.code}
-    * stock : debe ser un número, se recibió ${product.stock}`
+    * stock : debe ser un número, se recibió ${product.stock}
+    * owner: debe ser un string, se recibió ${product.owner}`
 }
 
 module.exports = { generateProductErrorInfo }

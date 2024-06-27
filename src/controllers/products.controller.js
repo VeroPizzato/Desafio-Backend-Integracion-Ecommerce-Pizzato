@@ -66,8 +66,8 @@ class ProductsController {
 
     async addProduct (req, res) {
         try {
-            const { title, description, price, thumbnail, code, stock, status, category } = req.body
-            await ProductManager.addProduct(title, description, price, thumbnail, code, stock, status, category)
+            const { title, description, price, thumbnail, code, stock, status, category, owner } = req.body
+            await ProductManager.addProduct(title, description, price, thumbnail, code, stock, status, category, owner)
             res.sendCreatedSuccess('Producto agregado correctamente')
             //return res.status(201).json({ success: true })
         } catch (err) {

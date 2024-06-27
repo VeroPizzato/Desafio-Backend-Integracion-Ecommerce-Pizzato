@@ -87,7 +87,7 @@ class ProductManager {
         return id
     }   
 
-    addProduct = async (title, description, price, thumbnail, code, stock, status, category) => {
+    addProduct = async (title, description, price, thumbnail, code, stock, status, category, owner) => {
         let product = await ProductModel.create({
             id: this.#getNuevoId(),
             title,
@@ -97,7 +97,8 @@ class ProductManager {
             code,
             stock,
             status,
-            category
+            category,
+            owner
         })
     }
 
