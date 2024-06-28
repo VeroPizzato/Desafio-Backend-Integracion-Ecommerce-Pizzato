@@ -52,15 +52,11 @@ class JwtServices {
 
     async validarPassRepetidos (email, password) {
         let user
-        user = await this.dao.findByEmail({email}) 
-        console.log(password) 
-        console.log(hashPassword(password))
-        console.log(user.password)     
-        if (hashPassword(password) == user.password) {  // misma contraseña que la anterior
-            return null              
-        }
-        return user
+        //user = await this.dao.findByEmail({email}) 
+        user = await this.dao.findByEmail({email})             
+        return hashPassword(password) == user.password // misma contraseña que la anterior  
     }
+
 }
 
 module.exports = { JwtServices }

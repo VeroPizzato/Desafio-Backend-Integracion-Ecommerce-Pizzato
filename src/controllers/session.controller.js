@@ -63,8 +63,9 @@ class SessionController {
                 //return res.status(401).send('Enlace no válido o ha expirado')
             }
 
-            const user = await this.service.validarPassRepetidos(email, password)             
-            if (!user) {                  
+            const result = await this.service.validarPassRepetidos(email, password)   
+            console.log(result)          
+            if (result) {                  
                 req.logger.info('Contraseña inválida, la nueva contraseña no puede ser igual a la contraseña anterior')
                 return res.redirect('/')
             }
