@@ -64,8 +64,8 @@ class SessionController {
             }
 
             const user = await this.service.validarPassRepetidos(email, password)             
-            if (!user) {
-                req.logger.info('No se pudo actualizar la contraseña')
+            if (!user) {                  
+                req.logger.info('Contraseña inválida, la nueva contraseña no puede ser igual a la contraseña anterior')
                 return res.redirect('/')
             }
 

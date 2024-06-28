@@ -15,7 +15,7 @@ const schema = new mongoose.Schema({
     },
     rol: {
         type: String,
-        default: "user"
+        default: "user"  // puede ser user, admin o premium
     }
 })
 

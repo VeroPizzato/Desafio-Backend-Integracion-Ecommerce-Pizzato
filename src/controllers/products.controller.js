@@ -67,7 +67,7 @@ class ProductsController {
     async addProduct (req, res) {
         try {
             const { title, description, price, thumbnail, code, stock, status, category, owner } = req.body
-            await ProductManager.addProduct(title, description, price, thumbnail, code, stock, status, category, owner)
+            await this.service.addProduct(title, description, price, thumbnail, code, stock, status, category, owner)
             res.sendCreatedSuccess('Producto agregado correctamente')
             //return res.status(201).json({ success: true })
         } catch (err) {
@@ -92,7 +92,15 @@ class ProductsController {
                 return producto === false
                 ? res.sendNotFoundError({ message: 'Not found!' }, 404)
                 : res.sendServerError({ message: 'Something went wrong!' })
-            }        
+            } 
+            if ((!req.session.user && req.session.user.rol !== 'admin') || 
+                (!req.session.user && req.session.user.email !== producto.owner)) {
+                req.logger.error(`${error} - ${req.method} en ${req.url} - ${new Date().toLocaleDateString()} `);
+                return res.send({
+                    status: "Error",
+                    error: 'No autorizado'
+                });
+            }       
             const result = this.service.updateProduct(prodId, datosAUpdate)           
             //return res.sendSuccess(result)
             //return res.status(200).json(result)
@@ -114,6 +122,14 @@ class ProductsController {
                 return producto === false
                 ? res.sendNotFoundError({ message: 'Not found!' }, 404)
                 : res.sendServerError({ message: 'Something went wrong!' })
+            }
+            if ((!req.session.user && req.session.user.rol !== 'admin') ||
+                (!req.session.user && req.session.user.email !== producto.owner)) {
+                req.logger.error(`${error} - ${req.method} en ${req.url} - ${new Date().toLocaleDateString()} `)
+                return res.send({
+                    status: "Error",
+                    error: 'No autorizado'
+                })
             }
             await this.service.deleteProduct(prodId)
             return res.sendSuccess('Producto Eliminado correctamente')
