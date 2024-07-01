@@ -27,7 +27,7 @@ class ViewsController {
     }
 
     login(req, res) {
-        try {           
+        try {
             res.render('login', {
                 title: 'Login'
             })
@@ -38,26 +38,26 @@ class ViewsController {
         }
     }
 
-    reset_password(req, res) {       
-        try {     
-            const token = req.params.token                  
+    reset_password(req, res) {
+        try {
+            const token = req.params.token
             res.render('reset_password', {
                 title: 'Reset Password',
                 token
             })
-        } catch (err) {           
+        } catch (err) {
             req.logger.error(`${err} - ${req.method} en ${req.url} - ${new Date().toLocaleDateString()}`)
             return res.sendServerError(err)
             //return res.status(500).json({ message: err.message })
         }
     }
- 
+
     forget_password(req, res) {
-        try {                 
+        try {
             res.render('forget_password', {
                 title: 'Forget Password'
             })
-        } catch (err) {         
+        } catch (err) {
             req.logger.error(`${err} - ${req.method} en ${req.url} - ${new Date().toLocaleDateString()}`)
             return res.sendServerError(err)
             //return res.status(500).json({ message: err.message })
@@ -124,7 +124,7 @@ class ViewsController {
                     : res.sendServerError({ message: 'Something went wrong!' })
             }
             const carts = await this.cartsService.getCarts()
-            let cid = carts[0]._id
+            let cid = user.cart //carts[0]._id          
             let data = {
                 title: 'Product Detail',
                 scripts: ['productoDetail.js'],
@@ -145,16 +145,26 @@ class ViewsController {
     async addProductToCart(req, res) {
         try {
             const prodId = req.pid
-            //const user = req.session.user
-            //agrego una unidad del producto al primer carrito que siempre existe
-            const carts = await this.cartsService.getCarts()
-            //console.log(JSON.stringify(carts, null, '\t'))    
-            if (!carts) await this.cartsService.addCart([])
-            await this.cartsService.addProductToCart(carts[0]._id.toString(), prodId, 1)
-            let product = await this.productsService.getProductById(prodId)
-            this.mostrarAlertaCompra(res, carts[0]._id.toString(), product)
-            //await this.cartsService.addProductToCart(user.cart, prodId, 1);
-            //res.redirect(`/products/detail/${prodId}`)  
+            const user = req.session.user            
+            const product = await this.productsService.getProductById(prodId)
+            if (!product) {
+                return res.sendNotFoundError(`El producto con código '${prodId}' no existe!`)
+            }
+            // agrego una unidad del producto al carrito del usuario
+            const result = await this.cartsService.addProductToCart(user.cart, prodId, 1);
+            if (result) {
+                res.sendSuccess(`Se agregaron ${quantity} producto/s con ID ${prodId} al carrito con ID ${user.cart}!`)
+                this.mostrarAlertaCompra(res, user.cart, product)
+                //await this.cartsService.addProductToCart(user.cart, prodId, 1);
+                //res.redirect(`/products/detail/${prodId}`)              
+            }
+            else
+                throw CustomError.createError({
+                    name: 'InvalidAction',
+                    cause: `No se pudo agregar el producto '${prodId}' al carrito '${user.cart}'.`,
+                    message: 'Error trying to add a product to a cart',
+                    code: ErrorCodes.INVALID_TYPES_ERROR
+                })
         }
         catch (err) {
             req.logger.error(`${err} - ${req.method} en ${req.url} - ${new Date().toLocaleDateString()}`)
@@ -311,7 +321,7 @@ class ViewsController {
     loggerTest(req, res) {
         try {
             req.logger.debug(`${req.method} en ${req.url} - ${new Date().toLocaleDateString()}`);
-            req.logger.http(`${req.method} en ${req.url} - ${new Date().toLocaleDateString()}`);           
+            req.logger.http(`${req.method} en ${req.url} - ${new Date().toLocaleDateString()}`);
             req.logger.info(`${req.method} en ${req.url} - ${new Date().toLocaleDateString()}`);
             req.logger.warning(`${req.method} en ${req.url} - ${new Date().toLocaleDateString()}`);
             req.logger.error(`${req.method} en ${req.url} - ${new Date().toLocaleDateString()}`);
@@ -319,7 +329,7 @@ class ViewsController {
 
             res.sendSuccess('Testeo de logger finalizado')
         } catch (err) {
-            return res.sendServerError({message: 'Testeo de logger erroneo'})
+            return res.sendServerError({ message: 'Testeo de logger erroneo' })
         }
     }
 }
