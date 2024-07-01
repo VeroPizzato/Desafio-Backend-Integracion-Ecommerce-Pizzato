@@ -4,9 +4,7 @@ const { UserDTO } = require("../dao/DTOs/user.dto")
 const { generateUser } = require("../mock/generateUser")
 const transport = require("../config/transport")
 const jwt = require('jsonwebtoken')
-const config = require('../config/config')
-
-const PRIVATE_KEY = config.SECRET
+const { SECRET } = require('../config/config')
 
 class SessionController {
   
@@ -51,35 +49,27 @@ class SessionController {
     async reset_password(req, res) {
         const token = req.params.token        
         const { email, password } = req.body
-        console.log(email + " " + password)
+        //console.log(email + " " + password)
         if (!token) {
             req.logger.info('Token no proporcionado')
             //return res.status(401).send('Token no proporcionado')
         }
 
-        jwt.verify(token, PRIVATE_KEY, async (err, decoded) => {
+        jwt.verify(token, SECRET, async (err, decoded) => {
             if (err) {
                 req.logger.info('Enlace no válido o ha expirado')
-                //return res.status(401).send('Enlace no válido o ha expirado')
+                return res.redirect('/forget_password')
             }
 
             const result = await this.service.validarPassRepetidos(email, password)   
-            console.log(result)          
-            if (result) {                  
+            //console.log(result)          
+            if (!result) {                  
                 req.logger.info('Contraseña inválida, la nueva contraseña no puede ser igual a la contraseña anterior')
                 return res.redirect('/')
             }
 
             req.logger.info('Contraseña actualizada')
-            try {
-                res.redirect('/login')
-            } catch (err) {
-                req.logger.error(err)
-                // res.status(500).send({
-                //     status: "error",
-                //     err: "Error al resetear la contraseña"
-                // })
-            }
+            res.redirect('/login')            
         })
     }
 
@@ -87,9 +77,9 @@ class SessionController {
         const { email } = req.body       
         if (email) {
             try {
-                const token = jwt.sign({ email }, PRIVATE_KEY, { expiresIn: '1h' })   
+                const token = jwt.sign({ email }, SECRET, { expiresIn: '1h' })   
                 const resetLink = `http://localhost:8080/reset_password/${token}`
-                let result = await transport.sendMail({
+                await transport.sendMail({
                     from: 'Servicio Google <verizzato@gmail.com>',
                     to: `${email}`,
                     subject: 'Solicitud de restauracion de contraseña',

@@ -1,5 +1,5 @@
 const config = require('../config/config')
-const { isValidPassword, hashPassword} = require('../utils/hashing')
+const { isValidPassword } = require('../utils/hashing')
 
 class JwtServices {
 
@@ -51,12 +51,8 @@ class JwtServices {
     }
 
     async validarPassRepetidos (email, password) {
-        let user
-        //user = await this.dao.findByEmail({email}) 
-        user = await this.dao.findByEmail({email})             
-        return hashPassword(password) == user.password // misma contraseña que la anterior  
+        return await this.dao.validarPassRepetidos(email, password)          
     }
-
 }
 
 module.exports = { JwtServices }
