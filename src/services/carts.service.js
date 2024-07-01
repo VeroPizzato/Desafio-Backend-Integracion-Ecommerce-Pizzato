@@ -1,11 +1,14 @@
-const { CartDAO } = require("../dao/mongo/cart.dao")
 const { ProductDAO } = require("../dao/mongo/product.dao")
-
+const { UserDAO } = require("../dao/mongo/user.dao")
+const { ProductsService } = require('../services/products.service')
+const { JwtServices } = require('../services/jwt.service')
 
 class CartsService {
 
     constructor(dao) {
         this.dao = dao
+        this.productsService = new ProductsService(new ProductDAO())
+        this.jwtServices = new JwtServices(new UserDAO)
     }
 
     async getCarts () {
@@ -21,7 +24,21 @@ class CartsService {
     }
 
     async addProductToCart (cartId, prodId, quantity) { 
-        await this.dao.addProductToCart(cartId, prodId, quantity);       
+        const product = await this.productsService.getProductById(prodId)      
+        if (!product)
+            return false
+        console.log(product.owner)
+        const userOwner = await this.jwtServices.getUserByEmail(product.owner)       
+        if (!userOwner)
+            return false
+        const userCart = await this.jwtServices.getUserByCartId(cartId)
+        if (!userCart)
+            return false
+        if ((userCart.email == userOwner.email) && (userCart.rol == "premium"))
+            return false
+        else {
+            await this.dao.addProductToCart(cartId, prodId, quantity)
+        }     
     }
 
     async updateCartProducts (cartId, products) {  

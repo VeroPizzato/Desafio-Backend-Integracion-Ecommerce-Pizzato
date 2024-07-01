@@ -14,3 +14,31 @@ error: undefined {"code":"EAUTH","command":"AUTH PLAIN","response":"535-5.7.8 Us
 error: undefined {"code":"EAUTH","command":"AUTH PLAIN","response":"535-5.7.8 Username and Password not accepted. For more information, go to\n535 5.7.8  https://support.google.com/mail/?p=BadCredentials d2e1a72fcca58-7068d2514e7sm3510603b3a.179 - gsmtp","responseCode":535}
 error: undefined {"code":"EAUTH","command":"AUTH PLAIN","response":"535-5.7.8 Username and Password not accepted. For more information, go to\n535 5.7.8  https://support.google.com/mail/?p=BadCredentials 41be03b00d2f7-7196aa06f39sm5780800a12.91 - gsmtp","responseCode":535}
 error: CastErrorPOST en /api/sessions/register - 7/1/2024
+error: ReferenceError: user is not defined - GET en /products/detail/660c2e0ceae06b4c3ff95021 - 7/1/2024
+error: ReferenceError: user is not defined - GET en /products/detail/660c29ccc0338205dcc51c10 - 7/1/2024
+error: ReferenceError: user is not defined - GET en /products/detail/6609b708bc530ed5f2d7d46a - 7/1/2024
+error: ReferenceError: user is not defined - GET en /products/detail/660c2e0ceae06b4c3ff95021 - 7/1/2024
+error: ReferenceError: CustomError is not defined - GET en /products/addCart/660c29ccc0338205dcc51c10 - 7/1/2024
+error: ReferenceError: CustomError is not defined - GET en /products/addCart/660c29ccc0338205dcc51c10 - 7/1/2024
+error: ReferenceError: CustomError is not defined - GET en /products/addCart/660c2e0ceae06b4c3ff95021 - 7/1/2024
+error: ReferenceError: ErrorCodes is not defined - GET en /products/addCart/660c2e0ceae06b4c3ff95021 - 7/1/2024
+error: InvalidAction: Error trying to add a product to a cart - GET en /products/addCart/660c2e0ceae06b4c3ff95021 - 7/1/2024
+error: InvalidAction: Error trying to add a product to a cart - GET en /products/addCart/660c29ccc0338205dcc51c10 - 7/1/2024
+error: InvalidAction: Error trying to add a product to a cart - GET en /products/addCart/660c29ccc0338205dcc51c10 - 7/1/2024
+error: InvalidAction: Error trying to add a product to a cart - GET en /products/addCart/660c29ccc0338205dcc51c10 - 7/1/2024
+error: InvalidAction: Error trying to add a product to a cart - GET en /products/addCart/6609b708bc530ed5f2d7d46a - 7/1/2024
+error: TypeError: Cannot read properties of undefined (reading 'getProductById') - GET en /products/addCart/6609b708bc530ed5f2d7d46a - 7/1/2024
+error: ReferenceError: producto is not defined - GET en /products/addCart/6609b708bc530ed5f2d7d46a - 7/1/2024
+error: TypeError: Cannot read properties of undefined (reading 'getProductById') - GET en /products/addCart/6609b708bc530ed5f2d7d46a - 7/1/2024
+error: ObjectParameterError: Parameter "filter" to findOne() must be an object, got "admin" (type string) - GET en /products/addCart/6609b708bc530ed5f2d7d46a - 7/1/2024
+error: CastErrorGET en /api/sessions/githubcallback?code=b72af34797eab3db649b - 7/1/2024
+error: CastErrorGET en /api/sessions/githubcallback?code=3fe087eb69f54a2c3608 - 7/1/2024
+error: InvalidAction: Error trying to add a product to a cart - GET en /products/addCart/6609b708bc530ed5f2d7d46a - 7/1/2024
+error: InvalidAction: Error trying to add a product to a cart - GET en /products/addCart/6609b708bc530ed5f2d7d46a - 7/1/2024
+error: InvalidAction: Error trying to add a product to a cart - GET en /products/addCart/6609b708bc530ed5f2d7d46a - 7/1/2024
+error: TypeError: this.jwtServices.getUserByEmail is not a function - GET en /products/addCart/6609b708bc530ed5f2d7d46a - 7/1/2024
+error: TypeError: this.jwtServices.getUserByEmail is not a function - GET en /products/addCart/6609b708bc530ed5f2d7d46a - 7/1/2024
+error: TypeError: this.jwtServices.getUserByEmail is not a function - GET en /products/addCart/6609b708bc530ed5f2d7d46a - 7/1/2024
+error: TypeError: this.jwtServices.getUserByEmail is not a function - GET en /products/addCart/6609b708bc530ed5f2d7d46a - 7/1/2024
+error: TypeError: this.jwtServices.getUserByEmail is not a function - GET en /products/addCart/6609b708bc530ed5f2d7d46a - 7/1/2024
+error: TypeError: this.jwtServices.getUserByEmail is not a function - GET en /products/addCart/6609b708bc530ed5f2d7d46a - 7/1/2024

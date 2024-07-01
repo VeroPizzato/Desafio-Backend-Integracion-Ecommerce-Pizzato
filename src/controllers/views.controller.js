@@ -3,6 +3,8 @@ const { ProductsService } = require('../services/products.service')
 const { Product: ProductDAO } = require('../dao')
 const { Cart: CartDAO } = require('../dao')
 const { generateProduct } = require('../mock/generateProducts')
+const { CustomError } = require('../services/errors/CustomError')
+const { ErrorCodes } = require('../services/errors/errorCodes')
 
 class ViewsController {
 
@@ -116,6 +118,7 @@ class ViewsController {
 
     async getProductDetail(req, res) {
         try {
+            const user = req.session.user
             const prodId = req.pid
             const product = await this.productsService.getProductById(prodId)
             if (!product) {
@@ -145,8 +148,8 @@ class ViewsController {
     async addProductToCart(req, res) {
         try {
             const prodId = req.pid
-            const user = req.session.user            
-            const product = await this.productsService.getProductById(prodId)
+            const user = req.session.user                      
+            const product = await this.productsService.getProductById(prodId)          
             if (!product) {
                 return res.sendNotFoundError(`El producto con código '${prodId}' no existe!`)
             }
@@ -161,7 +164,7 @@ class ViewsController {
             else
                 throw CustomError.createError({
                     name: 'InvalidAction',
-                    cause: `No se pudo agregar el producto '${prodId}' al carrito '${user.cart}'.`,
+                    cause: `No se pudo agregar el producto '${prodId}' al carrito '${user.cart}'`,
                     message: 'Error trying to add a product to a cart',
                     code: ErrorCodes.INVALID_TYPES_ERROR
                 })

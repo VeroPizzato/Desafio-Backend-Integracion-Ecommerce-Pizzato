@@ -35,7 +35,7 @@ class JwtServices {
             }
         }
         else {
-            user = await this.dao.findByEmail(email)
+            user = await this.dao.findByEmail({email})
             if (!user) {
                 //res.sendNotFoundError(err)
                 //return res.status(404).json({ error: 'User not found!' })
@@ -56,7 +56,7 @@ class JwtServices {
     }
 
     async findByEmail (email) {
-        return await this.dao.findByEmail(email)          
+        return await this.dao.findByEmail({email})          
     }
 
     async getUserByCartId (idCart) {

@@ -5,6 +5,8 @@ const { Cart: CartDAO, Product: ProductDAO } = require('../dao')
 const { CartDTO } = require('../dao/DTOs/cart.dto')
 const { addTicket } = require('./ticket.controller')
 const { UserDAO } = require('../dao/mongo/user.dao')
+const { CustomError } = require('../services/errors/CustomError')
+const { ErrorCodes } = require('../services/errors/errorCodes')
 
 class CartsController {
 
@@ -69,23 +71,19 @@ class CartsController {
         try {
             let idCart = req.cid
             let idProd = req.pid
-            let quantity = 1
-            const product = await this.productsService.getProductById(prodId)
-            if (!product)
-                return false
-            const userOwner = await this.jwtServices.findByEmail(product.owner)
-            if (!userOwner)
-                return false
-            const userCart = await this.jwtServices.getUserByCartId(idCart)
-            if (!userCart)
-                return false
-
-            if ((userCart.email == userOwner.email) && (userCart.rol == "premium"))
-                return false
-            else {
-                await this.cartsService.addProductToCart(idCart, idProd, quantity)
+            let quantity = 1           
+            const result = await this.cartsService.addProductToCart(idCart, idProd, quantity)
+            if (result) {
                 res.sendSuccess(`Se agregaron ${quantity} producto/s con ID ${idProd} al carrito con ID ${idCart}`)
                 //res.status(200).json(`Se agregaron ${quantity} producto/s con ID ${idProd} al carrito con ID ${idCart}`)    // HTTP 200 OK
+            }
+            else {
+                throw CustomError.createError({
+                    name: 'InvalidAction',
+                    cause: `No se pudo agregar el producto '${idProd}' al carrito '${idCart}'`,
+                    message: 'Error trying to add a product to a cart',
+                    code: ErrorCodes.INVALID_TYPES_ERROR
+                })
             }
         } catch (err) {
             req.logger.error(`${err} - ${req.method} en ${req.url} - ${new Date().toLocaleDateString()}`)

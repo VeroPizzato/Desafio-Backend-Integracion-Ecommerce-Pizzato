@@ -8,8 +8,19 @@ class UserDAO {
         return user
     }
 
+    getUserByEmail = async (email) => {
+        try {            
+            const user = await UserModel.findOne({ email })
+            return user?.toObject() ?? null
+        }
+        catch (err) {          
+            console.error(err)
+            return null
+        }
+    }
+
     getUserByCartId = async (idCart) => {
-        const user = await UserModel.findOne({idCart})
+        const user = await UserModel.findOne({ idCart })
         return user
     }
 
