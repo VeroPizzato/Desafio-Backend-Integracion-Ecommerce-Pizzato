@@ -1,5 +1,5 @@
 const { validarNuevoProducto } = require('../middlewares/product.middleware')
-const { userIsLoggedIn, userIsNotLoggedIn, userIsAdmin, userIsUser } = require('../middlewares/auth.middleware')
+const { userIsLoggedIn, userIsNotLoggedIn, userIsAdmin, userIsUser, userIsAdminOrPremium } = require('../middlewares/auth.middleware')
 const { ViewsController } = require('../controllers/views.controller')
 
 const Router = require('./router')
@@ -37,7 +37,7 @@ class ViewsRouter extends Router {
 
         this.post('/realtimeproducts', validarNuevoProducto, userIsLoggedIn, userIsAdmin, withController((controller, req, res) => controller.postRealTimeProducts(req, res)))
 
-        this.get('/newProduct', userIsLoggedIn, userIsAdmin, withController((controller, req, res) => controller.newProduct(req, res)))
+        this.get('/newProduct', userIsLoggedIn, userIsAdminOrPremium, withController((controller, req, res) => controller.newProduct(req, res)))
 
         this.get('/chat', withController((controller, req, res) => controller.chat(req, res)))  
         

@@ -23,8 +23,17 @@ class CartDAO {
         }
     }
 
+    getIdCart (cart) {
+        return cart._id
+    }
+
+    generarId () {
+        return new Date().getTime().toString()
+    }
+
     addCart = async (products) => {
-        let nuevoCarrito = await CartModel.create({           
+        let nuevoCarrito = await CartModel.create({ 
+            id: this.generarId(),          
             products
         })
         return nuevoCarrito?.toObject() ?? null
@@ -32,7 +41,8 @@ class CartDAO {
 
     addProductToCart = async (cid, pid, quantity) => {
         const cart = await this.getCartByCId(cid)
-        if (!cart) cart = this.addCart([])        
+        console.log(cart._id)
+        if (!cart) return false       
         const listadoProducts = cart.products;
         const codeProduIndex = listadoProducts.findIndex(elem => elem._id._id.toString() === pid);
         if (codeProduIndex === -1) {

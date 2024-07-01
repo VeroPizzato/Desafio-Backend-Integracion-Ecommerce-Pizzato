@@ -1,3 +1,7 @@
+const { CartDAO } = require("../dao/mongo/cart.dao")
+const { ProductDAO } = require("../dao/mongo/product.dao")
+
+
 class CartsService {
 
     constructor(dao) {
@@ -16,7 +20,7 @@ class CartsService {
         await this.dao.addCart(products)
     }
 
-    async addProductToCart (cartId, prodId, quantity) {        
+    async addProductToCart (cartId, prodId, quantity) { 
         await this.dao.addProductToCart(cartId, prodId, quantity);       
     }
 

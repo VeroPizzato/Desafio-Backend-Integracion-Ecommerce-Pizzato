@@ -8,14 +8,14 @@ class JwtController {
         this.service = new JwtServices(new UserDAO())
     }
 
-    login (req, res) {
+    async login (req, res) {
         try {
             const { email, password } = req.body
             if (!email || !password) {
                 return res.sendUserError('Invalid credentials!')
                 //return res.status(400).send('Invalid credentials!')
             }
-            const user = this.service.findByEmail(email, password)
+            const user = await this.service.findByEmail(email, password)
             // const credentials = { id: user._id.toString(), email: user.email, rol: 'user' }
             const credentials = { id: user._id.toString(), email: user.email, rol: user.rol }
             const accessToken = generateToken(credentials)

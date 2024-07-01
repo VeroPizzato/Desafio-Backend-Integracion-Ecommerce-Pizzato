@@ -8,6 +8,11 @@ class UserDAO {
         return user
     }
 
+    getUserByCartId = async (idCart) => {
+        const user = await UserModel.findOne({idCart})
+        return user
+    }
+
     async getUsers() {
         try {
             const users = await UserModel.find()

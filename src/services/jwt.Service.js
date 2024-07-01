@@ -9,6 +9,7 @@ class JwtServices {
 
     async login(email, password) {
         let user
+        const emptyCart = cartDAO.getIdCart(await cartDAO.addCart([]))    
         if (email === config.ADMIN_EMAIL && password === config.ADMIN_PASSWORD) {
             // Datos de sesión para el usuario coder Admin
             user = {
@@ -16,7 +17,7 @@ class JwtServices {
                 last_name: "de CODER",
                 age: 21,
                 email: config.ADMIN_EMAIL,
-                cart: null,
+                cart: emptyCart,
                 rol: "admin",
                 _id: "jh235hlki23463nkhlo"
             }
@@ -28,7 +29,7 @@ class JwtServices {
                 last_name: "de CODER",
                 age: 40,
                 email: config.SUPER_ADMIN_EMAIL,
-                cart: null,
+                cart: emptyCart,
                 rol: "superadmin",
                 _id: "kflshGKSGNasbsgj3dae"
             }
@@ -52,6 +53,14 @@ class JwtServices {
 
     async validarPassRepetidos (email, password) {
         return await this.dao.validarPassRepetidos(email, password)          
+    }
+
+    async findByEmail (email) {
+        return await this.dao.findByEmail(email)          
+    }
+
+    async getUserByCartId (idCart) {
+        return await this.dao.getUserByCartId(idCart)          
     }
 }
 

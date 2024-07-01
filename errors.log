@@ -13,3 +13,4 @@ error: undefined {"code":"EAUTH","command":"AUTH PLAIN","response":"535-5.7.8 Us
 error: undefined {"code":"EAUTH","command":"AUTH PLAIN","response":"535-5.7.8 Username and Password not accepted. For more information, go to\n535 5.7.8  https://support.google.com/mail/?p=BadCredentials d9443c01a7336-1fa2b011112sm49655935ad.121 - gsmtp","responseCode":535}
 error: undefined {"code":"EAUTH","command":"AUTH PLAIN","response":"535-5.7.8 Username and Password not accepted. For more information, go to\n535 5.7.8  https://support.google.com/mail/?p=BadCredentials d2e1a72fcca58-7068d2514e7sm3510603b3a.179 - gsmtp","responseCode":535}
 error: undefined {"code":"EAUTH","command":"AUTH PLAIN","response":"535-5.7.8 Username and Password not accepted. For more information, go to\n535 5.7.8  https://support.google.com/mail/?p=BadCredentials 41be03b00d2f7-7196aa06f39sm5780800a12.91 - gsmtp","responseCode":535}
+error: CastErrorPOST en /api/sessions/register - 7/1/2024

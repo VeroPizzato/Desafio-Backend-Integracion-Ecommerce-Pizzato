@@ -8,6 +8,8 @@ const UserDAO = new User()
 const { hashPassword, isValidPassword } = require('../utils/hashing')
 const { Strategy, ExtractJwt } = require('passport-jwt')
 const config = require('../config/config')
+const { CartDAO } = require('../dao/mongo/cart.dao')
+const cartDAO = new CartDAO()
 
 const LocalStrategy = localStrategy.Strategy
 const GithubStrategy = githubStrategy.Strategy
@@ -47,14 +49,14 @@ const initializeStrategy = () => {
             const fullName = profile._json.name
             const first_name = fullName.substring(0, fullName.lastIndexOf(' '))
             const last_name = fullName.substring(fullName.lastIndexOf(' ') + 1)
-
+            const emptyCart = cartDAO.getIdCart(await cartDAO.addCart([]))
             const newUser = {
                 first_name,
                 last_name,
                 age: 47,
                 email: profile._json.email,
                 password: '',
-                cart: null
+                cart: emptyCart
             }
 
             //const result = await User.create(newUser)
@@ -85,14 +87,14 @@ const initializeStrategy = () => {
                 // false en el 2do argumento, indicando que no se pudo registrar
                 return done(null, false)
             }
-
+            const emptyCart = cartDAO.getIdCart(await cartDAO.addCart([]))
             const newUser = {
                 first_name,
                 last_name,
                 age: +age,
                 email,
                 password: hashPassword(password),
-                cart: null
+                cart: emptyCart
             }
             //const result = await User.create(newUser)
             const result = await UserDAO.saveUser(newUser)
@@ -144,7 +146,8 @@ const initializeStrategy = () => {
             }
 
             //let user = await User.findOne({ email: username });
-            let user = await UserDAO.findByEmail({ email: username });          
+            let user = await UserDAO.findByEmail({ email: username })
+            const emptyCart = cartDAO.getIdCart(await cartDAO.addCart([]))      
             if (username === config.ADMIN_EMAIL && password === config.ADMIN_PASSWORD) {
                 // Datos de sesión para el usuario coder Admin
                 user = {
@@ -153,7 +156,7 @@ const initializeStrategy = () => {
                     last_name: "de CODER",
                     age: 21,
                     email: username,
-                    cart: null,
+                    cart: emptyCart,
                     rol: "admin"
                 };
                 return done(null, user);
@@ -167,7 +170,7 @@ const initializeStrategy = () => {
                     last_name: "de CODER",
                     age: 40,
                     email: username,
-                    cart: null,
+                    cart: emptyCart,
                     rol: "superadmin"
                 };
                 return done(null, user);

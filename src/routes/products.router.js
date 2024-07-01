@@ -1,6 +1,6 @@
 const { validarNuevoProducto, validarProductoExistente, validarProdActualizado } = require('../middlewares/product.middleware')
 const { ProductsController } = require('../controllers/products.controller')
-const { userIsLoggedIn, userIsAdmin } = require('../middlewares/auth.middleware')
+const { userIsLoggedIn, userIsAdmin, userIsAdminOrPremium } = require('../middlewares/auth.middleware')
 
 const Router = require('./router')
 
@@ -17,7 +17,7 @@ class ProductsRouter extends Router {
        
         this.get('/:pid', validarProductoExistente, withController((controller, req, res) => controller.getProductById(req, res)))     
 
-        this.post('/', userIsLoggedIn, userIsAdmin, validarNuevoProducto, withController((controller, req, res) => controller.addProduct(req, res))) 
+        this.post('/', userIsLoggedIn, userIsAdminOrPremium, validarNuevoProducto, withController((controller, req, res) => controller.addProduct(req, res))) 
                 
         this.put('/:pid', userIsLoggedIn, userIsAdmin, validarProdActualizado, withController((controller, req, res) => controller.updateProduct(req, res)))
 

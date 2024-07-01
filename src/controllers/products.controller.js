@@ -8,7 +8,7 @@ class ProductsController {
         this.service = new ProductsService(new ProductDAO())
     }
 
-    async getProducts (req, res) {
+    async getProducts(req, res) {
         try {
             const products = await this.service.getProducts(req.query)
             const result = {
@@ -44,14 +44,14 @@ class ProductsController {
         }
     }
 
-    async getProductById (req, res) {
+    async getProductById(req, res) {
         try {
             const prodId = req.pid
             const producto = await this.service.getProductById(prodId)
             if (!producto) {
                 return producto === false
-                ? res.sendNotFoundError({ message: 'Not found!' }, 404)
-                : res.sendServerError({ message: 'Something went wrong!' })
+                    ? res.sendNotFoundError({ message: 'Not found!' }, 404)
+                    : res.sendServerError({ message: 'Something went wrong!' })
             }
             return res.sendSuccess(new ProductDTO(producto))
             //res.status(200).json(producto)    // HTTP 200 OK
@@ -64,12 +64,17 @@ class ProductsController {
         }
     }
 
-    async addProduct (req, res) {
+    async addProduct(req, res) {
         try {
-            const { title, description, price, thumbnail, code, stock, status, category, owner } = req.body
-            await this.service.addProduct(title, description, price, thumbnail, code, stock, status, category, owner)
-            res.sendCreatedSuccess('Producto agregado correctamente')
-            //return res.status(201).json({ success: true })
+            const user = req.session.user
+            const { title, description, price, thumbnail, code, stock, status, category } = req.body
+            if (user.rol == "admin" || user.rol == "premium") {
+                await this.service.addProduct(title, description, price, thumbnail, code, stock, status, category, user.email)
+                res.sendCreatedSuccess('Producto agregado correctamente')
+                //return res.status(201).json({ success: true })
+            }
+            else
+                res.sendUnauthorizedError(`El usuario ${user.email} no tiene permisos para crear productos`)
         } catch (err) {
             req.logger.error(`${err} - ${req.method} en ${req.url} - ${new Date().toLocaleDateString()}`)
             return res.sendUserError(err)
@@ -79,8 +84,8 @@ class ProductsController {
         }
     }
 
-    async updateProduct (req, res) {
-        try {           
+    async updateProduct(req, res) {
+        try {
             const prodId = req.pid
             const datosAUpdate = req.body
             // if (isNaN(prodId)){
@@ -90,18 +95,18 @@ class ProductsController {
             const producto = await this.service.getProductById(prodId)
             if (!producto) {
                 return producto === false
-                ? res.sendNotFoundError({ message: 'Not found!' }, 404)
-                : res.sendServerError({ message: 'Something went wrong!' })
-            } 
-            if ((!req.session.user && req.session.user.rol !== 'admin') || 
+                    ? res.sendNotFoundError({ message: 'Not found!' }, 404)
+                    : res.sendServerError({ message: 'Something went wrong!' })
+            }
+            if ((!req.session.user && req.session.user.rol !== 'admin') ||
                 (!req.session.user && req.session.user.email !== producto.owner)) {
                 req.logger.error(`${error} - ${req.method} en ${req.url} - ${new Date().toLocaleDateString()} `);
                 return res.send({
                     status: "Error",
                     error: 'No autorizado'
                 });
-            }       
-            const result = this.service.updateProduct(prodId, datosAUpdate)           
+            }
+            const result = this.service.updateProduct(prodId, datosAUpdate)
             //return res.sendSuccess(result)
             //return res.status(200).json(result)
             return res.sendSuccess(new ProductDTO(datosAUpdate))
@@ -114,14 +119,14 @@ class ProductsController {
         }
     }
 
-    async delete (req, res) {
-        try {            
+    async delete(req, res) {
+        try {
             const prodId = req.pid
             const producto = await this.service.getProductById(prodId)
             if (!producto) {
                 return producto === false
-                ? res.sendNotFoundError({ message: 'Not found!' }, 404)
-                : res.sendServerError({ message: 'Something went wrong!' })
+                    ? res.sendNotFoundError({ message: 'Not found!' }, 404)
+                    : res.sendServerError({ message: 'Something went wrong!' })
             }
             if ((!req.session.user && req.session.user.rol !== 'admin') ||
                 (!req.session.user && req.session.user.email !== producto.owner)) {
