@@ -73,21 +73,21 @@ class CartsController {
             let idProd = req.pid
             let quantity = +req.body.quantity           
             
-            const producto = await this.productsService.getProductById(prodId)
-            if (!producto) {
-                return res.status(404).json({
-                    result: 'error',
-                    message: 'Producto no encontrado'
-                });
-            }
+            // const producto = await this.productsService.getProductById(prodId)
+            // if (!producto) {
+            //     return res.status(404).json({
+            //         result: 'error',
+            //         message: 'Producto no encontrado'
+            //     });
+            // }
 
-            if (!req.session.user || (req.session.user.rol === 'premium' && req.session.user.email === producto.owner)) {
-                req.logger.error(`${error} - ${req.method} en ${req.url} - ${new Date().toLocaleDateString()} `)
-                return res.send({
-                    status: "Error",
-                    error: 'No autorizado'
-                })
-            }
+            // if (!req.session.user || (req.session.user.rol === 'premium' && req.session.user.email === producto.owner)) {
+            //     req.logger.error(`${error} - ${req.method} en ${req.url} - ${new Date().toLocaleDateString()} `)
+            //     return res.send({
+            //         status: "Error",
+            //         error: 'No autorizado'
+            //     })
+            // }
             
             const result = await this.cartsService.addProductToCart(idCart, idProd, quantity)
             if (result) {
