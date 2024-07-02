@@ -9,7 +9,7 @@ class UserDAO {
     }
 
     getUserByEmail = async (email) => {
-        try {            
+        try {  
             const user = await UserModel.findOne({ email })
             return user?.toObject() ?? null
         }
@@ -36,7 +36,7 @@ class UserDAO {
     }
 
     async getUserById(id) {
-        try {
+        try {           
             const user = await UserModel.findById(id)
             return user?.toObject() ?? false
         }
