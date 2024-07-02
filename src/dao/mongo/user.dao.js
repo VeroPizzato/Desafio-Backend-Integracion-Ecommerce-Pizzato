@@ -1,5 +1,5 @@
 const UserModel = require("./models/user.model")
-const { hashPassword } = require('../../utils/hashing')
+const { hashPassword, isValidPassword } = require('../../utils/hashing')
 
 class UserDAO {
 
@@ -81,9 +81,11 @@ class UserDAO {
     }
 
     async validarPassRepetidos(email, pass) {
-        try {
-            const user = await this.findByEmail({ email })
+        try {         
+            //const user = await this.findByEmail({ email })
+            const user = await UserModel.findOne({email})     
             return hashPassword(pass) == user.password // misma contraseña que la anterior 
+            //return isValidPassword(pass, user.password) 
         }
         catch (err) {
             console.error(err)
