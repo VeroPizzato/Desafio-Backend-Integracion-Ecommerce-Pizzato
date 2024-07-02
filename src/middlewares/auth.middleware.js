@@ -19,7 +19,8 @@ module.exports = {
     },
     userIsAdmin: (req, res, next) => {
         // el usuario debe ser admin o superadmin           
-        if (req.session.user.rol != "admin") {
+        if (req.session.user.rol != "admin")  {
+            console.log("entre userIsAdmin")
             return res.status(403).json({ error: 'Unauthorized user!' })
         }
 
@@ -27,7 +28,7 @@ module.exports = {
     },
     userIsUser: (req, res, next) => {
         // el usuario debe ser user o superadmin  
-        if (req.session.user.rol != "user") {
+        if (req.session.user.rol != "user") {        
             return res.status(403).json({ error: 'Unauthorized user!' })
         }
 

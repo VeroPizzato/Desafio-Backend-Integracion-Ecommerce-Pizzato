@@ -69,6 +69,7 @@ class ProductsController {
             const user = req.session.user
             const { title, description, price, thumbnail, code, stock, status, category } = req.body
             if (user.rol == "admin" || user.rol == "premium") {
+                console.log(user.email)
                 await this.service.addProduct(title, description, price, thumbnail, code, stock, status, category, user.email)
                 res.sendCreatedSuccess('Producto agregado correctamente')
                 //return res.status(201).json({ success: true })
