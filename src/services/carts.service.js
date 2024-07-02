@@ -29,14 +29,14 @@ class CartsService {
             return false       
         const userOwner = await this.jwtServices.getUserByEmail(product.owner)       
         if (!userOwner)
-            return false
-        const userCart = await this.jwtServices.getUserByCartId(cartId)
+            return false       
+        const userCart = await this.jwtServices.getUserByCartId(cartId) 
         if (!userCart)
-            return false
+            return false      
         if ((userCart.email == userOwner.email) && (userCart.rol == "premium"))
             return false  // un usuario premium NO puede agregar un producto que le pertenece
-        else {
-            await this.dao.addProductToCart(cartId, prodId, quantity)
+        else {           
+            return await this.dao.addProductToCart(cartId, prodId, quantity)
         }     
     }
 

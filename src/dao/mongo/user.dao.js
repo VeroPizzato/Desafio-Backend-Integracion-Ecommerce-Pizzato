@@ -4,24 +4,36 @@ const { hashPassword } = require('../../utils/hashing')
 class UserDAO {
 
     findByEmail = async (email) => {
-        const user = await UserModel.findOne(email)
-        return user
+        try {
+            const user = await UserModel.findOne(email)
+            return user?.toObject() ?? null
+        }
+        catch (err) {
+            console.error(err)
+            return null
+        }
     }
 
     getUserByEmail = async (email) => {
-        try {  
+        try {
             const user = await UserModel.findOne({ email })
             return user?.toObject() ?? null
         }
-        catch (err) {          
+        catch (err) {
             console.error(err)
             return null
         }
     }
 
     getUserByCartId = async (idCart) => {
-        const user = await UserModel.findOne({ idCart })
-        return user
+        try {
+            const user = await UserModel.findOne({ cart: idCart })
+            return user?.toObject() ?? null
+        }
+        catch (err) {
+            console.error(err)
+            return null
+        }
     }
 
     async getUsers() {
@@ -36,7 +48,7 @@ class UserDAO {
     }
 
     async getUserById(id) {
-        try {           
+        try {
             const user = await UserModel.findById(id)
             return user?.toObject() ?? false
         }
@@ -91,7 +103,7 @@ class UserDAO {
                     // en otro caso no se puede cambiar el rol
                     return false
 
-                await UserModel.updateOne( {_id: idUser}, { $set: { rol: user.rol } })  // se cambió el rol
+                await UserModel.updateOne({ _id: idUser }, { $set: { rol: user.rol } })  // se cambió el rol
                 return true
             }
             else

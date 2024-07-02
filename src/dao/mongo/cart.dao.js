@@ -40,9 +40,9 @@ class CartDAO {
     }
 
     addProductToCart = async (cid, pid, quantity) => {
-        const cart = await this.getCartByCId(cid)     
+        const cart = await this.getCartByCId(cid)       
         if (!cart) return false       
-        const listadoProducts = cart.products      
+        const listadoProducts = cart.products           
         const codeProduIndex = listadoProducts.findIndex(elem => elem._id._id.toString() === pid)
         if (codeProduIndex === -1) {
             let productoNuevo = {
