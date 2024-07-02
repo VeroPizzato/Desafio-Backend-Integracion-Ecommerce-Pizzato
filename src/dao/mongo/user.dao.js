@@ -78,6 +78,31 @@ class UserDAO {
             return null
         }
     }
+
+    async changeRole(idUser) {
+        try {
+            const user = await this.getUserById(idUser)
+            if (user) {
+                if (user.rol == 'user')
+                    user.rol = 'premium'
+                else if (user.rol == 'premium')
+                    user.rol = 'user'
+                else
+                    // en otro caso no se puede cambiar el rol
+                    return false
+
+                await UserModel.updateOne( {_id: idUser}, { $set: { rol: user.rol } })  // se cambió el rol
+                return true
+            }
+            else
+                return false
+        }
+        catch (err) {
+            console.error(err)
+            return false
+        }
+    }
+
 }
 
 module.exports = { UserDAO }

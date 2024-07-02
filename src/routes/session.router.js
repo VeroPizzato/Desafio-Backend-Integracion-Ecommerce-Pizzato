@@ -39,7 +39,9 @@ class SessionRouter extends Router {
 
         this.get('/current', withController((controller, req, res) => controller.current(req, res)))        
 
-        this.get('/mockingusers', withController((controller, req, res) => controller.mockingUsers(req, res)))    
+        this.get('/mockingusers', withController((controller, req, res) => controller.mockingUsers(req, res)))  
+        
+        this.post('/premium/:uid', withController((controller, req, res) => controller.changeRole(req, res)))
 
     }
 }

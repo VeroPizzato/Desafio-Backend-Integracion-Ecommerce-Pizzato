@@ -62,6 +62,11 @@ class JwtServices {
     async getUserByCartId (idCart) {
         return await this.dao.getUserByCartId(idCart)          
     }
+
+    async changeRole(idUser) {
+        return await this.dao.changeRole(idUser)
+    }
+
 }
 
 module.exports = { JwtServices }
