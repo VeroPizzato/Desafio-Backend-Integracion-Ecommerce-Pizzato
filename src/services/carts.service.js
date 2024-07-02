@@ -34,7 +34,7 @@ class CartsService {
         if (!userCart)
             return false
         if ((userCart.email == userOwner.email) && (userCart.rol == "premium"))
-            return false
+            return false  // un usuario premium NO puede agregar un producto que le pertenece
         else {
             await this.dao.addProductToCart(cartId, prodId, quantity)
         }     
