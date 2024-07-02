@@ -68,7 +68,7 @@ class ProductsController {
         try {
             const user = req.session.user
             const { title, description, price, thumbnail, code, stock, status, category } = req.body
-            if (user.rol == "admin" || user.rol == "premium") {
+            if (user.rol == "admin" || user.rol == "premium") {  // no hace falta porque lo valida el middleware
                 console.log(user.email)
                 await this.service.addProduct(title, description, price, thumbnail, code, stock, status, category, user.email)
                 res.sendCreatedSuccess('Producto agregado correctamente')

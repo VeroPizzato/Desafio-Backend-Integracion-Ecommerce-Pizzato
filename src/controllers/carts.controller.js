@@ -67,11 +67,28 @@ class CartsController {
         }
     }
 
-    async createProductToCart(req, res) {
+    async addProductToCart(req, res) {
         try {
             let idCart = req.cid
             let idProd = req.pid
-            let quantity = 1           
+            let quantity = +req.body.quantity           
+            
+            // const producto = await this.productsService.getProductById(prodId)
+            // if (!producto) {
+            //     return res.status(404).json({
+            //         result: 'error',
+            //         message: 'Producto no encontrado'
+            //     });
+            // }
+
+            // if (!req.session.user || (req.session.user.rol === 'premium' && req.session.user.email === producto.owner)) {
+            //     req.logger.error(`${error} - ${req.method} en ${req.url} - ${new Date().toLocaleDateString()} `)
+            //     return res.send({
+            //         status: "Error",
+            //         error: 'No autorizado'
+            //     })
+            // }
+            
             const result = await this.cartsService.addProductToCart(idCart, idProd, quantity)
             if (result) {
                 res.sendSuccess(`Se agregaron ${quantity} producto/s con ID ${idProd} al carrito con ID ${idCart}`)
@@ -107,46 +124,7 @@ class CartsController {
             return res.sendServerError(err)
             // return res.status(500).json({ message: err.message })
         }
-    }
-
-    async updateProductToCart(req, res) {
-        try {
-            let cartId = req.cid
-            let prodId = req.pid
-            const quantity = +req.body.quantity
-
-            const producto = await this.productsService.getProductById(prodId)
-            if (!producto) {
-                return res.status(404).json({
-                    result: 'error',
-                    message: 'Producto no encontrado'
-                });
-            }
-
-            if (!req.session.user || (req.session.user.rol === 'premium' && req.session.user.email === producto.owner)) {
-                req.logger.error(`${error} - ${req.method} en ${req.url} - ${new Date().toLocaleDateString()} `)
-                return res.send({
-                    status: "Error",
-                    error: 'No autorizado'
-                })
-            }
-
-            const result = await this.cartsService.addProductToCart(cartId, prodId, quantity)
-            if (result)
-                // HTTP 200 OK
-                res.status(200).json(`Se agregaron ${quantity} producto/s con ID ${prodId} al carrito con ID ${cartId}.`)
-            else {
-                //HTTP 400
-                res.sendUserError(err)
-                //res.status(400).json({ error: "Sintaxis incorrecta!" })
-            }
-        }
-        catch (err) {
-            req.logger.error(`${err} - ${req.method} en ${req.url} - ${new Date().toLocaleDateString()}`)
-            return res.sendServerError(err)
-            // return res.status(500).json({ message: err.message })
-        }
-    }
+    }   
 
     async deleteCart(req, res) {
         try {

@@ -19,11 +19,11 @@ class CartsRouter extends Router {
 
         this.post('/', userIsLoggedIn, userIsUser, validarNuevoCarrito, withController((controller, req, res) => controller.addCart(req, res))) 
 
-        this.post('/:cid/products/:pid', userIsLoggedIn, userIsUser, validarCarritoExistente, withController((controller, req, res) => controller.createProductToCart(req, res)))
+        this.post('/:cid/products/:pid', userIsLoggedIn, userIsUser, validarCarritoExistente, withController((controller, req, res) => controller.addProductToCart(req, res)))
   
         this.put('/:cid', userIsLoggedIn, userIsUser, validarCarritoExistente, withController((controller, req, res) => controller.updateCartProducts(req, res)))
 
-        this.put('/:cid/products/:pid', userIsLoggedIn, userIsUser, validarCarritoExistente, validarProductoExistente, withController((controller, req, res) => controller.updateProductToCart(req, res))) 
+        this.put('/:cid/products/:pid', userIsLoggedIn, userIsUser, validarCarritoExistente, validarProductoExistente, withController((controller, req, res) => controller.addProductToCart(req, res))) 
      
         this.delete('/:cid', userIsLoggedIn, userIsUser, validarCarritoExistente, withController((controller, req, res) => controller.deleteCart(req, res)))
      
