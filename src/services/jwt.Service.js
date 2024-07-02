@@ -59,6 +59,10 @@ class JwtServices {
         return await this.dao.findByEmail({email})          
     }
 
+    async getUserByEmail (email) {
+        return await this.dao.getUserByEmail({email})          
+    }    
+
     async getUserByCartId (idCart) {
         return await this.dao.getUserByCartId(idCart)          
     }

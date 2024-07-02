@@ -42,3 +42,4 @@ error: TypeError: this.jwtServices.getUserByEmail is not a function - GET en /pr
 error: TypeError: this.jwtServices.getUserByEmail is not a function - GET en /products/addCart/6609b708bc530ed5f2d7d46a - 7/1/2024
 error: TypeError: this.jwtServices.getUserByEmail is not a function - GET en /products/addCart/6609b708bc530ed5f2d7d46a - 7/1/2024
 error: TypeError: this.jwtServices.getUserByEmail is not a function - GET en /products/addCart/6609b708bc530ed5f2d7d46a - 7/1/2024
+error: TypeError: this.jwtServices.getUserByEmail is not a function - GET en /products/addCart/6609b708bc530ed5f2d7d46a - 7/1/2024
