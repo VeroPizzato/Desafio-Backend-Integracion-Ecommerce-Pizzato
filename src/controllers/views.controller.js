@@ -254,6 +254,7 @@ class ViewsController {
 
     async postRealTimeProducts(req, res) {
         try {
+            const user = req.session.user  
             const product = req.body
             // Convertir el valor status "true" o "false" a booleano        
             var boolStatus = JSON.parse(product.status)
@@ -269,7 +270,7 @@ class ViewsController {
                 +product.stock,
                 boolStatus,
                 product.category,
-                product.owner)
+                user.email)
             // Notificar a los clientes mediante WS que se agrego un producto nuevo             
             req.app.get('ws').emit('newProduct', product)
             res.redirect('/realtimeproducts')
