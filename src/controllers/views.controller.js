@@ -154,9 +154,11 @@ class ViewsController {
                 return res.sendNotFoundError(`El producto con código '${prodId}' no existe!`)
             }
             // agrego una unidad del producto al carrito del usuario
-            const result = await this.cartsService.addProductToCart(user.cart, prodId, 1)  
+            let quantity = 1
+            const result = await this.cartsService.addProductToCart(user.cart, prodId, quantity)
+            console.log(result)  
             if (result) {
-                res.sendSuccess(`Se agregaron ${quantity} producto/s con ID ${prodId} al carrito con ID ${user.cart}!`)
+                //res.sendSuccess(`Se agregaron ${quantity} producto/s con ID ${prodId} al carrito con ID ${user.cart}!`)
                 this.mostrarAlertaCompra(res, user.cart, product)
                 //await this.cartsService.addProductToCart(user.cart, prodId, 1);
                 //res.redirect(`/products/detail/${prodId}`)              

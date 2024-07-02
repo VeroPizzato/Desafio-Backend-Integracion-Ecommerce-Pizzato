@@ -146,8 +146,7 @@ const initializeStrategy = () => {
             }
 
             //let user = await User.findOne({ email: username });
-            let user = await UserDAO.findByEmail({ email: username })
-            const emptyCart = cartDAO.getIdCart(await cartDAO.addCart([]))      
+            let user = await UserDAO.findByEmail({ email: username })                
             if (username === config.ADMIN_EMAIL && password === config.ADMIN_PASSWORD) {
                 // Datos de sesión para el usuario coder Admin
                 user = {
@@ -156,7 +155,7 @@ const initializeStrategy = () => {
                     last_name: "de CODER",
                     age: 21,
                     email: username,
-                    cart: emptyCart,
+                    cart: null,
                     rol: "admin"
                 };
                 return done(null, user);
@@ -170,7 +169,7 @@ const initializeStrategy = () => {
                     last_name: "de CODER",
                     age: 40,
                     email: username,
-                    cart: emptyCart,
+                    cart: null,
                     rol: "superadmin"
                 };
                 return done(null, user);

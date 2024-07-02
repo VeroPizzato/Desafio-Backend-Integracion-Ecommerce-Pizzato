@@ -39,7 +39,7 @@ class CartDAO {
         return nuevoCarrito?.toObject() ?? null
     }
 
-    addProductToCart = async (cid, pid, quantity) => {
+    addProductToCart = async (cid, pid, quantity) => {        
         const cart = await this.getCartByCId(cid)       
         if (!cart) return false       
         const listadoProducts = cart.products           
