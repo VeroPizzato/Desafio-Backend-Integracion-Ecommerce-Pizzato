@@ -54,6 +54,7 @@ class CartDAO {
             listadoProducts[codeProduIndex].quantity += quantity
         }
         await CartModel.updateOne({ _id: cid }, cart)
+        return true
     }
 
     updateCartProducts = async (cid, products) => {

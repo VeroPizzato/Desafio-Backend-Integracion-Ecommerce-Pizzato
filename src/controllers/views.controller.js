@@ -155,8 +155,7 @@ class ViewsController {
             }
             // agrego una unidad del producto al carrito del usuario
             let quantity = 1
-            const result = await this.cartsService.addProductToCart(user.cart, prodId, quantity)
-            console.log(result)  
+            const result = await this.cartsService.addProductToCart(user.cart, prodId, quantity)             
             if (result) {
                 //res.sendSuccess(`Se agregaron ${quantity} producto/s con ID ${prodId} al carrito con ID ${user.cart}!`)
                 this.mostrarAlertaCompra(res, user.cart, product)
